@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Login</title>
+{% endblock %}
+
+{% block content %}
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <form action="" method="post">
+
+        {{ form.csrf_token() }}
+
+        {% for field in form if field.name != "csrf_token" %}
+            <p>{{ field.label() }}</p>
+            <p>{{ field }}
+                {% for error in field.errors %}
+                    {{ error }}
+                {% endfor %}
+            </p>
+        {% endfor %}
+
+    </form>
+{% endblock %}

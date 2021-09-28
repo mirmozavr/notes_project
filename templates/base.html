@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% block head %}
+
+    {% endblock %}
+
+</head>
+<body>
+<p><a href="/">TO MAIN PAGE</a><hr></p>
+{% if auth_status %}
+    <p><a href="/notes/">NOTES</a></p>
+    <p><a href="/notes/new/">NEW NOTE</a></p>
+    <p><a href="/logout/">LOGOUT</a></p>
+{% else %}
+    <p><a href="/login/">LOGIN</a></p>
+    <p><a href="/signup/">SIGN UP</a></p>
+{% endif %}
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+{% endfor %}
+{% block content %}
+{% endblock %}
+</body>
+</html>
