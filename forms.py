@@ -26,3 +26,7 @@ class NoteForm(FlaskForm):
     color = SelectField("Color", choices=[("white", "White"), ("red", "Red"), ("blue", "Blue"), ("green", "Green"),
                                           ("yellow", "Yellow"), ("orange", "Orange")])
     save = SubmitField()
+
+
+class DeleteForm(FlaskForm):
+    delete = SubmitField(label="Delete")

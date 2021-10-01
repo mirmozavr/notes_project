@@ -8,7 +8,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, NoteForm, SignUpForm
+from forms import DeleteForm, LoginForm, NoteForm, SignUpForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "a really really really really long secret key"
@@ -122,9 +122,28 @@ def new_note():
     )
 
 
+@app.route("/notes/<int:note_id>/", methods=("GET", "POST"))
+@login_required
+def note(note_id):
+    form = DeleteForm()
+    note = db.session.query(Note).filter(Note.user_id == current_user.id, Note.id == note_id).first_or_404()
+    if form.is_submitted():
+        db.session.delete(note)
+        db.session.commit()
+        return redirect(url_for("notes", auth_status=current_user.is_authenticated))
+
+    return render_template("note.html", auth_status=current_user.is_authenticated, note=note, form=form)
+
+
 @app.errorhandler(404)
 def http_404_handler(error):
     return "<h1>HTTP 404 Error GODDAMN</h1>", 404
+
+
+@app.errorhandler(401)
+def http_401_handler(error):
+    flash("Login required", "warning")
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":

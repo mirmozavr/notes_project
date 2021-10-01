@@ -3,17 +3,16 @@
 {% block head %}
     <title>Notes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='notes.css') }}" )>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 {% endblock %}
 
 {% block content %}
     <div class="container">
         {% for note in data %}
-            <div style="background-color: {{ note.color }}"
-                 class="note">
+            <a href="/notes/{{ note.id }}" class="note" style="background-color: {{ note.color }}">
                 <p class="title">{{ note.title }}</p>
                 <p>{{ note.content }}</p>
-            </div>
+            </a>
         {% endfor %}
     </div>
 {% endblock %}

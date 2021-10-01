@@ -2,25 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}" )>
 
     {% block head %}
 
     {% endblock %}
 
 </head>
+
 <body>
-<p><a href="/">TO MAIN PAGE</a><hr></p>
-{% if auth_status %}
-    <p><a href="/notes/">NOTES</a></p>
-    <p><a href="/notes/new/">NEW NOTE</a></p>
-    <p><a href="/logout/">LOGOUT</a></p>
-{% else %}
-    <p><a href="/login/">LOGIN</a></p>
-    <p><a href="/signup/">SIGN UP</a></p>
-{% endif %}
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
+<div class="header">
+    <p><a href="/">TO MAIN PAGE</a>
+    <hr>
+    </p>
+    {% if auth_status %}
+        <p><a href="/notes/">NOTES</a></p>
+        <p><a href="/notes/new/">NEW NOTE</a></p>
+        <p><a href="/logout/">LOGOUT</a></p>
+    {% else %}
+        <p><a href="/login/">LOGIN</a></p>
+        <p><a href="/signup/">SIGN UP</a></p>
+    {% endif %}
+    {% for message in get_flashed_messages() %}
+        <p class="message">{{ message }}</p>
+    {% endfor %}
+    <hr>
+</div>
 {% block content %}
 {% endblock %}
 </body>

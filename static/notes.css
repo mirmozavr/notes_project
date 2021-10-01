@@ -16,28 +16,62 @@
     font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: normal;
-}
-
-.container {
-    display: flex;
-    flex-flow: row wrap;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: space-around;
+    color: black;
 }
 
 
 .note {
     width: 200px;
-    /*min-width: 200px;*/
-    /*max-width: 200px;*/
     margin: 5px;
     padding: 5px 10px 20px;
     border: solid 1px dimgrey;
     border-radius: 10px;
 }
 
+
+a.note {
+    display: block;
+    width: 200px;
+    text-decoration: none; /* Убирает подчеркивание для ссылок */
+    margin: 5px;
+    padding: 5px 10px 20px;
+    border: solid 1px dimgrey;
+    border-radius: 10px;
+}
+
+a:visited {
+    text-decoration: none;
+    font-color: black;
+}
+
+A:active {
+    text-decoration: none;
+}
+
+A:hover {
+    text-decoration: none;
+}
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    /*align-items: flex-start;*/
+    /*justify-content: flex-start;*/
+    gap: 10px 20px;
+
+    max-width: 990px;
+    height: calc(100vh + 150px);
+    margin-left: auto;
+    margin-right: auto;
+    background-color: Cornsilk;
+}
+
+
 .title {
     font-weight: bolder;
     margin-bottom: 5px;
+}
+
+.del {
+
 }

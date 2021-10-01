@@ -1,0 +1,29 @@
+/*
+    xs: 0..575px
+    sm: 576..767px
+    md: 768..991px
+    lg: 992..1199px
+    xl: 1200px+
+    .container padding: 8px
+    .container width:  - 16px
+    .col-* padding: 8px
+*/
+/* */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.header {
+    height: 100px;
+}
+
+.message {
+    color: red;
+}
