@@ -20,28 +20,50 @@
 }
 
 
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    align-content: flex-start; /*important!*/
+    /*justify-content: space-evenly;*/
+    gap: 10px 20px;
+
+    padding: 20px;
+
+    max-width: 880px;
+    height: calc(100vh + 150px);
+    margin-left: auto;
+    margin-right: auto;
+    background-color: Cornsilk;
+    border: dashed 1px dimgrey;
+    border-radius: 10px;
+}
+
+
 .note {
+    display: block;
     width: 200px;
-    margin: 5px;
+    text-decoration: none; /* Убирает подчеркивание для ссылок */
+    /*margin: 5px;*/
     padding: 5px 10px 20px;
     border: solid 1px dimgrey;
     border-radius: 10px;
 }
-
 
 a.note {
     display: block;
     width: 200px;
     text-decoration: none; /* Убирает подчеркивание для ссылок */
-    margin: 5px;
+    /*margin: 5px;*/
     padding: 5px 10px 20px;
     border: solid 1px dimgrey;
     border-radius: 10px;
 }
 
+
 a:visited {
     text-decoration: none;
-    font-color: black;
+    color: black;
 }
 
 A:active {
@@ -50,20 +72,6 @@ A:active {
 
 A:hover {
     text-decoration: none;
-}
-
-.container {
-    display: flex;
-    flex-flow: row wrap;
-    /*align-items: flex-start;*/
-    /*justify-content: flex-start;*/
-    gap: 10px 20px;
-
-    max-width: 990px;
-    height: calc(100vh + 150px);
-    margin-left: auto;
-    margin-right: auto;
-    background-color: Cornsilk;
 }
 
 

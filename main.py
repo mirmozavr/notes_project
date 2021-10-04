@@ -98,8 +98,14 @@ def logout():
 @app.route("/notes/")
 @login_required
 def notes():
-    data = db.session.query(Note).filter(Note.user_id == current_user.id, Note.archived == False).order_by(Note.updated_on.desc())
-    return render_template("notes.html", auth_status=current_user.is_authenticated, data=data)
+    data = (
+        db.session.query(Note)
+        .filter(Note.user_id == current_user.id, Note.archived == False)
+        .order_by(Note.updated_on.desc())
+    )
+    return render_template(
+        "notes.html", data=data, auth_status=current_user.is_authenticated
+    )
 
 
 @app.route("/notes/new/", methods=("GET", "POST"))
@@ -116,6 +122,7 @@ def new_note():
         note.set_slug()
         db.session.add(note)
         db.session.commit()
+        flash("NOTE ADDED", "success")
         return redirect(url_for("notes"))
     return render_template(
         "newnote.html", form=form, auth_status=current_user.is_authenticated
@@ -126,13 +133,57 @@ def new_note():
 @login_required
 def note(note_id):
     form = DeleteForm()
-    note = db.session.query(Note).filter(Note.user_id == current_user.id, Note.id == note_id).first_or_404()
+    note = (
+        db.session.query(Note)
+        .filter(Note.user_id == current_user.id, Note.id == note_id)
+        .first_or_404()
+    )
     if form.is_submitted():
         db.session.delete(note)
         db.session.commit()
         return redirect(url_for("notes", auth_status=current_user.is_authenticated))
 
-    return render_template("note.html", auth_status=current_user.is_authenticated, note=note, form=form)
+    return render_template(
+        "note.html", note=note, form=form, auth_status=current_user.is_authenticated
+    )
+
+
+@app.route("/notes/edit/<int:note_id>/", methods=("GET", "POST"))
+@login_required
+def edit_note(note_id):
+    form = DeleteForm()
+    editor = NoteForm()
+    note = (
+        db.session.query(Note)
+        .filter(Note.user_id == current_user.id, Note.id == note_id)
+        .first_or_404()
+    )
+
+    if form.delete.data and form.is_submitted():
+        db.session.delete(note)
+        db.session.commit()
+        return redirect(url_for("notes", auth_status=current_user.is_authenticated))
+
+    if editor.content.data and editor.validate_on_submit():
+        note.title = editor.title.data
+        note.content = editor.content.data
+        note.color = editor.color.data
+        db.session.add(note)
+        db.session.commit()
+        flash("EDIT SUCCESSFUL", "success")
+        return redirect(url_for("notes", auth_status=current_user.is_authenticated))
+
+    editor.title.data = note.title
+    editor.content.data = note.content
+    editor.color.data = note.color
+
+    return render_template(
+        "edit_note.html",
+        note=note,
+        form=form,
+        form2=editor,
+        auth_status=current_user.is_authenticated,
+    )
 
 
 @app.errorhandler(404)
