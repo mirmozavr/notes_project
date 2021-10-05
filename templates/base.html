@@ -25,9 +25,11 @@
         <p><a href="/login/">LOGIN</a></p>
         <p><a href="/signup/">SIGN UP</a></p>
     {% endif %}
-    {% for message in get_flashed_messages() %}
-        <p class="message">{{ message }}</p>
+
+    {% for category, message in  get_flashed_messages(with_categories=true) %}
+        <spam class="{{ category }}">{{ message }}</spam>
     {% endfor %}
+
     <hr>
 </div>
 {% block content %}

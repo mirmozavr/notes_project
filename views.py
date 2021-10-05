@@ -1,9 +1,14 @@
 from flask import flash, redirect, render_template, url_for
-from flask_login import (LoginManager, current_user, login_required,
-                         login_user, logout_user)
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 
 from __init__ import app, db
-from forms import ArchiveForm, DeleteForm, LoginForm, NoteForm, SignUpForm
+from forms import LoginForm, ModifyForm, NoteForm, SignUpForm
 from models import Note, User
 
 login_manager = LoginManager(app)
@@ -93,7 +98,6 @@ def new_note():
             color=form.color.data,
             user_id=current_user.id,
         )
-        note.set_slug()
         db.session.add(note)
         db.session.commit()
         flash("NOTE ADDED", "success")
@@ -108,8 +112,8 @@ def new_note():
 def archive():
     data = (
         db.session.query(Note)
-            .filter(Note.user_id == current_user.id, Note.archived == True)
-            .order_by(Note.updated_on.desc())
+        .filter(Note.user_id == current_user.id, Note.archived == True)
+        .order_by(Note.updated_on.desc())
     )
     return render_template(
         "archive.html", data=data, auth_status=current_user.is_authenticated
@@ -132,53 +136,49 @@ def notes():
 @app.route("/notes/<int:note_id>/", methods=("GET", "POST"))
 @login_required
 def note(note_id):
-    form = DeleteForm()
-    archive_form = ArchiveForm()
+    modify_form = ModifyForm()
     note = (
         db.session.query(Note)
         .filter(Note.user_id == current_user.id, Note.id == note_id)
         .first_or_404()
     )
-
-    if form.validate_on_submit():
+    if modify_form.delete.data:
         db.session.delete(note)
         db.session.commit()
+        flash("NOTE DELETED", "success")
         return redirect(url_for("notes", auth_status=current_user.is_authenticated))
 
-    if archive_form.validate_on_submit():
+    if modify_form.archive.data:
         note.archived = not note.archived
         db.session.add(note)
         db.session.commit()
+        flash("NOTE ARCHIVED", "success")
         return redirect(url_for("notes", auth_status=current_user.is_authenticated))
 
     return render_template(
-        "note.html", note=note, form=form, form2=archive_form, auth_status=current_user.is_authenticated
+        "note.html",
+        note=note,
+        form=modify_form,
+        auth_status=current_user.is_authenticated,
     )
 
 
 @app.route("/notes/edit/<int:note_id>/", methods=("GET", "POST"))
 @login_required
 def edit_note(note_id):
-    form = DeleteForm()
     editor = NoteForm()
     note = (
         db.session.query(Note)
         .filter(Note.user_id == current_user.id, Note.id == note_id)
         .first_or_404()
     )
-
-    if form.delete.data and form.is_submitted():
-        db.session.delete(note)
-        db.session.commit()
-        return redirect(url_for("notes", auth_status=current_user.is_authenticated))
-
-    if editor.content.data and editor.validate_on_submit():
+    if editor.content.data and editor.is_submitted():
         note.title = editor.title.data
         note.content = editor.content.data
         note.color = editor.color.data
         db.session.add(note)
         db.session.commit()
-        flash("EDIT SUCCESSFUL", "success")
+        flash("NOTE EDITED", "success")
         return redirect(url_for("notes", auth_status=current_user.is_authenticated))
 
     editor.title.data = note.title
@@ -188,8 +188,7 @@ def edit_note(note_id):
     return render_template(
         "edit_note.html",
         note=note,
-        form=form,
-        form2=editor,
+        form=editor,
         auth_status=current_user.is_authenticated,
     )
 
@@ -203,4 +202,3 @@ def http_404_handler(error):
 def http_401_handler(error):
     flash("Login required", "warning")
     return redirect(url_for("login"))
-

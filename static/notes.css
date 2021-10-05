@@ -31,7 +31,7 @@
     padding: 20px;
 
     max-width: 880px;
-    height: calc(100vh + 150px);
+    height: calc(100vh - 100px);
     margin-left: auto;
     margin-right: auto;
     background-color: Cornsilk;
@@ -80,6 +80,6 @@ A:hover {
     margin-bottom: 5px;
 }
 
-.del {
-
+h2 {
+    text-align: center;
 }

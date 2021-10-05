@@ -12,10 +12,8 @@
             <p class="title">{{ note.title }}</p>
             <p>{{ note.content }}</p>
             <form action="" method="post">
+                {{ form.archive }}
                 {{ form.delete }}
-            </form>
-            <form action="" method="post">
-                {{ form2.archive }}
             </form>
             <a href="/notes/edit/{{ note.id }}"><button>Edit</button></a>
         </div>
