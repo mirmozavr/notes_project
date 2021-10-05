@@ -9,6 +9,15 @@ from wtforms import (
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, Length
 
+colors = [
+    ("#fdfefe", "White"),
+    ("#FF6666", "Red"),
+    ("#6666FF", "Blue"),
+    ("#99CC99", "Green"),
+    ("#FFFF99", "Yellow"),
+    ("#FF9933", "Orange"),
+]
+
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
@@ -42,14 +51,7 @@ class NoteForm(FlaskForm):
     )
     color = SelectField(
         "Color",
-        choices=[
-            ("white", "White"),
-            ("red", "Red"),
-            ("blue", "Blue"),
-            ("green", "Green"),
-            ("yellow", "Yellow"),
-            ("orange", "Orange"),
-        ],
+        choices=colors,
         default="white"
     )
     save = SubmitField("Save")

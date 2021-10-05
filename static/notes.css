@@ -34,7 +34,7 @@
     height: calc(100vh - 100px);
     margin-left: auto;
     margin-right: auto;
-    background-color: Cornsilk;
+    background-color: #ebedef;
     border: dashed 1px dimgrey;
     border-radius: 10px;
 }
