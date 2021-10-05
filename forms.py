@@ -57,3 +57,7 @@ class NoteForm(FlaskForm):
 
 class DeleteForm(FlaskForm):
     delete = SubmitField(label="Delete")
+
+
+class ArchiveForm(FlaskForm):
+    archive = SubmitField(label="Archive")

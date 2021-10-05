@@ -3,7 +3,7 @@ from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 
 from __init__ import app, db
-from forms import DeleteForm, LoginForm, NoteForm, SignUpForm
+from forms import ArchiveForm, DeleteForm, LoginForm, NoteForm, SignUpForm
 from models import Note, User
 
 login_manager = LoginManager(app)
@@ -103,6 +103,19 @@ def new_note():
     )
 
 
+@app.route("/archive/")
+@login_required
+def archive():
+    data = (
+        db.session.query(Note)
+            .filter(Note.user_id == current_user.id, Note.archived == True)
+            .order_by(Note.updated_on.desc())
+    )
+    return render_template(
+        "archive.html", data=data, auth_status=current_user.is_authenticated
+    )
+
+
 @app.route("/notes/")
 @login_required
 def notes():
@@ -120,18 +133,26 @@ def notes():
 @login_required
 def note(note_id):
     form = DeleteForm()
+    archive_form = ArchiveForm()
     note = (
         db.session.query(Note)
         .filter(Note.user_id == current_user.id, Note.id == note_id)
         .first_or_404()
     )
-    if form.is_submitted():
+
+    if form.validate_on_submit():
         db.session.delete(note)
         db.session.commit()
         return redirect(url_for("notes", auth_status=current_user.is_authenticated))
 
+    if archive_form.validate_on_submit():
+        note.archived = not note.archived
+        db.session.add(note)
+        db.session.commit()
+        return redirect(url_for("notes", auth_status=current_user.is_authenticated))
+
     return render_template(
-        "note.html", note=note, form=form, auth_status=current_user.is_authenticated
+        "note.html", note=note, form=form, form2=archive_form, auth_status=current_user.is_authenticated
     )
 
 
