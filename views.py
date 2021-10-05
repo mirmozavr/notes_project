@@ -1,20 +1,9 @@
-from flask import Flask, flash, redirect, render_template, url_for
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_required,
-    login_user,
-    logout_user,
-)
-from flask_sqlalchemy import SQLAlchemy
+from flask import flash, redirect, render_template, url_for
+from flask_login import (LoginManager, current_user, login_required,
+                         login_user, logout_user)
 
+from __init__ import app, db
 from forms import DeleteForm, LoginForm, NoteForm, SignUpForm
-
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "a really really really really long secret key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mysqlite.db"
-
-db = SQLAlchemy(app)
 from models import Note, User
 
 login_manager = LoginManager(app)
@@ -28,32 +17,6 @@ def load_user(user_id):
 @app.route("/")
 def main_page():
     return render_template("index.html", auth_status=current_user.is_authenticated)
-
-
-@app.route("/login/", methods=("GET", "POST"))
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("main_page"))
-    form = LoginForm()
-    if form.validate_on_submit():
-        # username = form.username.data
-        # password = form.password.data
-        # remember = form.remember.data
-        user = (
-            db.session.query(User).filter(User.username == form.username.data).first()
-        )
-        if not user:
-            flash("User not found", "warning")
-            return render_template("login.html", form=form)
-        if not user.check_password(form.password.data):
-            flash("Wrong password", "warning")
-            return render_template("login.html", form=form)
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember.data)
-            flash("LOGIN SUCCESSFUL", "success")
-            return redirect(url_for("main_page"))
-
-    return render_template("login.html", form=form)
 
 
 @app.route("/signup/", methods=("GET", "POST"))
@@ -87,25 +50,36 @@ def sign_up():
     return render_template("signup.html", form=form)
 
 
+@app.route("/login/", methods=("GET", "POST"))
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("main_page"))
+    form = LoginForm()
+    if form.validate_on_submit():
+
+        user = (
+            db.session.query(User).filter(User.username == form.username.data).first()
+        )
+        if not user:
+            flash("User not found", "warning")
+            return render_template("login.html", form=form)
+        if not user.check_password(form.password.data):
+            flash("Wrong password", "warning")
+            return render_template("login.html", form=form)
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash("LOGIN SUCCESSFUL", "success")
+            return redirect(url_for("main_page"))
+
+    return render_template("login.html", form=form)
+
+
 @app.route("/logout/")
 @login_required
 def logout():
     logout_user()
     flash("You have been logged out.")
     return redirect(url_for("main_page"))
-
-
-@app.route("/notes/")
-@login_required
-def notes():
-    data = (
-        db.session.query(Note)
-        .filter(Note.user_id == current_user.id, Note.archived == False)
-        .order_by(Note.updated_on.desc())
-    )
-    return render_template(
-        "notes.html", data=data, auth_status=current_user.is_authenticated
-    )
 
 
 @app.route("/notes/new/", methods=("GET", "POST"))
@@ -126,6 +100,19 @@ def new_note():
         return redirect(url_for("notes"))
     return render_template(
         "newnote.html", form=form, auth_status=current_user.is_authenticated
+    )
+
+
+@app.route("/notes/")
+@login_required
+def notes():
+    data = (
+        db.session.query(Note)
+        .filter(Note.user_id == current_user.id, Note.archived == False)
+        .order_by(Note.updated_on.desc())
+    )
+    return render_template(
+        "notes.html", data=data, auth_status=current_user.is_authenticated
     )
 
 
@@ -196,6 +183,3 @@ def http_401_handler(error):
     flash("Login required", "warning")
     return redirect(url_for("login"))
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
