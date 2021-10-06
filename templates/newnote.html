@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <div class="note" style="background-color: #fdfefe">
+            <form action="" method="post">
 
-    <form action="" method="post">
+                {{ form.csrf_token() }}
 
-        {{ form.csrf_token() }}
-
-        {% for field in form if field.name != "csrf_token" %}
-            <p>{{ field.label() }}</p>
-            <p>{{ field }}
-                {% for error in field.errors %}
-                    {{ error }}
+                {% for field in form if field.name != "csrf_token" %}
+                    <p>{{ field.label() }}</p>
+                    <p>{{ field }}
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </p>
                 {% endfor %}
-            </p>
-        {% endfor %}
-
-    </form>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
