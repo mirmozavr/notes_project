@@ -2,8 +2,10 @@ from datetime import datetime
 
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_sqlalchemy import SQLAlchemy
 
-from __init__ import db
+from __init__ import app
+db = SQLAlchemy(app)
 
 # db.metadata.clear()
 

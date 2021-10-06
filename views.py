@@ -7,9 +7,9 @@ from flask_login import (
     logout_user,
 )
 
-from __init__ import app, db
+from __init__ import app
 from forms import LoginForm, ModifyForm, NoteForm, SignUpForm
-from models import Note, User
+from models import db, Note, User
 
 login_manager = LoginManager(app)
 
