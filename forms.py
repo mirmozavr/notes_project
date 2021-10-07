@@ -7,6 +7,7 @@ from wtforms import (
     SelectField,
 )
 from flask_wtf import FlaskForm
+from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, Length
 
 
@@ -19,7 +20,7 @@ class LoginForm(FlaskForm):
 
 class SignUpForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email", validators=[Email()])
+    email = EmailField("Email", validators=[Email()])
     password = PasswordField(
         "Password",
         validators=[

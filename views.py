@@ -21,7 +21,19 @@ def load_user(user_id):
 
 @app.route("/")
 def main_page():
-    return render_template("index.html", auth_status=current_user.is_authenticated)
+    context = {}
+    if current_user.is_authenticated:
+        un = current_user.username
+        total_notes = db.session.query(Note).filter(Note.user_id == current_user.id).count()
+        archived_notes = db.session.query(Note).filter(Note.user_id == current_user.id, Note.archived == True).count()
+        context = {
+            "total_notes": total_notes,
+            "archived_notes": archived_notes,
+            "active_notes": total_notes - archived_notes,
+            "un": un
+        }
+
+    return render_template("index.html", context=context, auth_status=current_user.is_authenticated)
 
 
 @app.route("/signup/", methods=("GET", "POST"))

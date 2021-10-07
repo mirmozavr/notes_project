@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Notes</h2>
     <div class="container">
         {% for note in data %}
             <a href="/notes/{{ note.id }}" class="note" style="background-color: {{ note.color }}">

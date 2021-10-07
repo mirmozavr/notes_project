@@ -25,15 +25,13 @@
     flex-flow: row wrap;
     align-items: flex-start;
     align-content: flex-start; /*important!*/
-    /*justify-content: space-evenly;*/
     gap: 10px 20px;
 
     padding: 20px;
 
     max-width: 880px;
     height: calc(100vh - 100px);
-    margin-left: auto;
-    margin-right: auto;
+    margin: 80px auto 0;
     background-color: #ebedef;
     border: dashed 1px dimgrey;
     border-radius: 10px;

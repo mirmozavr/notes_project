@@ -20,11 +20,6 @@
     color: black;
 }
 
-/*html, body {*/
-/*    height: 100%;*/
-/*    margin: 0;*/
-/*}*/
-
 .header {
     height: 100px;
     margin-bottom: 20px;
@@ -35,4 +30,8 @@
 }
 .warning {
     color: red;
+}
+
+p {
+    margin-bottom: 0;
 }
