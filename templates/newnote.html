@@ -11,14 +11,16 @@
 
                 {{ form.csrf_token() }}
 
-                {% for field in form if field.name != "csrf_token" %}
-                    <p>{{ field.label() }}</p>
-                    <p>{{ field }}
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </p>
-                {% endfor %}
+                {{ form.title.label(class="form-label") }}
+                {{ form.title(class="form-control") }}
+                {{ form.content.label(class="form-label") }}
+                {{ form.content(class="form-control") }}
+                {{ form.color.label(class="form-label") }}
+                {{ form.color(class="form-select form-select-sm") }}
+                <br>
+                <div class="d-grid gap-2">
+                    {{ form.save(class="btn btn-outline-primary") }}
+                </div>
             </form>
         </div>
     </div>
