@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% for note in data %}
-            <a href="/notes/{{ note.id }}" class="note" style="background-color: {{ note.color }}">
-                <p class="title">{{ note.title }}</p>
-                <p>{{ note.content }}</p>
-            </a>
-        {% endfor %}
-    </div>
+
+    {% for note in data %}
+        <a href="/notes/{{ note.id }}" class="note" style="background-color: {{ note.color }}">
+            <p class="title">{{ note.title }}</p>
+            <p>{{ note.content }}</p>
+        </a>
+    {% endfor %}
+
 {% endblock %}

@@ -5,22 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% if auth_status %}
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-info">Hello, <span
-                        class="text-decoration-underline">{{ context["un"] }}</span>!
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Active notes: <span
-                        class="badge bg-primary rounded-pill">{{ context["active_notes"] }}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Archived notes: <span
-                        class="badge bg-primary rounded-pill">{{ context["archived_notes"] }}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">In total: <span
-                        class="badge bg-primary rounded-pill">{{ context["total_notes"] }}</span></li>
-            </ul>
 
-        {% endif %}
+    {% if auth_status %}
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-info">Hello, <span
+                    class="text-decoration-underline">{{ context["un"] }}</span>!
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Active notes: <span
+                    class="badge bg-primary rounded-pill">{{ context["active_notes"] }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Archived notes: <span
+                    class="badge bg-primary rounded-pill">{{ context["archived_notes"] }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">In total: <span
+                    class="badge bg-primary rounded-pill">{{ context["total_notes"] }}</span></li>
+        </ul>
 
+    {% endif %}
 
-    </div>
 {% endblock %}

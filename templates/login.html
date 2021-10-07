@@ -6,28 +6,21 @@
 
 {% block content %}
 
-    <div class="container">
+    <form action="" method="post">
 
-        {% if message %}
-            <p>{{ message }}</p>
-        {% endif %}
-
-        <form action="" method="post">
-
-            {{ form.csrf_token() }}
+        {{ form.csrf_token() }}
 
 
-            {{ form.username.label(class="form-label") }}
-            {{ form.username(class="form-control") }}
-            {{ form.password.label(class="form-label") }}
-            {{ form.password(class="form-control") }}
-            <br>
-            {{ form.remember(class="form-check-input") }}
-            {{ form.remember.label(class="form-check-label") }}
-            <br><br>
-            {{ form.submit(class="btn-sm btn-primary") }}
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        <br>
+        {{ form.remember(class="form-check-input") }}
+        {{ form.remember.label(class="form-check-label") }}
+        <br><br>
+        {{ form.submit(class="btn-sm btn-primary") }}
 
-        </form>
+    </form>
 
-    </div>
 {% endblock %}

@@ -8,23 +8,21 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="note" style="background-color: {{ note.color }}">
-            <form action="" method="post">
+    <div class="note" style="background-color: {{ note.color }}">
+        <form action="" method="post">
 
 
-                {{ form.title.label(class="form-label") }}
-                {{ form.title(class="form-control") }}
-                {{ form.content.label(class="form-label") }}
-                {{ form.content(class="form-control") }}
-                {{ form.color.label(class="form-label") }}
-                {{ form.color(class="form-select form-select-sm") }}
-                <br>
-                <div class="d-grid gap-2">
-                    {{ form.save(class="btn btn-outline-primary") }}
-                </div>
-            </form>
-        </div>
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control") }}
+            {{ form.color.label(class="form-label") }}
+            {{ form.color(class="form-select form-select-sm") }}
+            <br>
+            <div class="d-grid gap-2">
+                {{ form.save(class="btn btn-outline-primary") }}
+            </div>
+        </form>
     </div>
 
 {% endblock %}

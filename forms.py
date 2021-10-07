@@ -51,7 +51,7 @@ class NoteForm(FlaskForm):
             ("#FFFF99", "Yellow"),
             ("#FF9933", "Orange"),
         ],
-        default="white"
+        default="white",
     )
     save = SubmitField("Save")
 

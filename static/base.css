@@ -25,13 +25,19 @@
     margin-bottom: 20px;
 }
 
+.message {
+    width: 100%;
+}
+
 .success {
     color: green;
 }
+
 .warning {
     color: red;
 }
 
 p {
     margin-bottom: 0;
+    overflow: auto;
 }

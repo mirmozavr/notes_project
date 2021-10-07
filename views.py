@@ -24,16 +24,24 @@ def main_page():
     context = {}
     if current_user.is_authenticated:
         un = current_user.username
-        total_notes = db.session.query(Note).filter(Note.user_id == current_user.id).count()
-        archived_notes = db.session.query(Note).filter(Note.user_id == current_user.id, Note.archived == True).count()
+        total_notes = (
+            db.session.query(Note).filter(Note.user_id == current_user.id).count()
+        )
+        archived_notes = (
+            db.session.query(Note)
+            .filter(Note.user_id == current_user.id, Note.archived == True)
+            .count()
+        )
         context = {
             "total_notes": total_notes,
             "archived_notes": archived_notes,
             "active_notes": total_notes - archived_notes,
-            "un": un
+            "un": un,
         }
 
-    return render_template("index.html", context=context, auth_status=current_user.is_authenticated)
+    return render_template(
+        "index.html", context=context, auth_status=current_user.is_authenticated
+    )
 
 
 @app.route("/signup/", methods=("GET", "POST"))
@@ -203,11 +211,6 @@ def edit_note(note_id):
         form=editor,
         auth_status=current_user.is_authenticated,
     )
-
-
-@app.errorhandler(404)
-def http_404_handler(error):
-    return "<h1>HTTP 404 Error GODDAMN</h1>", 404
 
 
 @app.errorhandler(401)

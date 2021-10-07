@@ -6,15 +6,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="note" style="background-color: {{ note.color }}">
-            <p class="title">{{ note.title }}</p>
-            <p>{{ note.content }}</p>
-            <form action="" method="post">
-                {{ form.archive }}
-                {{ form.delete }}
-            </form>
-            <a href="/notes/edit/{{ note.id }}"><button>Edit</button></a>
-        </div>
+
+    <div class="note" style="background-color: {{ note.color }}">
+        <p class="title">{{ note.title }}</p>
+        <p>{{ note.content }}</p>
+        <form action="" method="post">
+            {{ form.archive(class="btn-sm btn-light") }}
+            <button class="btn-sm btn-light"><a href="/notes/edit/{{ note.id }}">Edit</a></button>
+            {{ form.delete(class="btn-sm btn-danger") }}
+        </form>
     </div>
+
 {% endblock %}
